@@ -25,7 +25,7 @@ export default function LivePage() {
         ? `${API_URL}/api/stream/camera/ai?model_name=${encodeURIComponent(selectedModel)}`
         : `${API_URL}/api/stream/camera`;
 
-    const cls = lastResult?.predicted_class;
+    const cls = lastResult?.predicted_class ?? "";
     const color = CLASS_COLORS[cls] || "#94a3b8";
     const label = CLASS_LABELS[cls] || cls;
     const isHealthy = cls === "Binh_thuong";
