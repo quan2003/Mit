@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: caymit_user
+      POSTGRES_PASSWORD: caymit_pass
+      POSTGRES_DB: caymit_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://caymit_user:caymit_pass@db:5432/caymit_db
+      MODEL_PATH_11: /models/best_11.pt
+      MODEL_PATH_26: /models/best_26.pt
+    volumes:
+      - ./models:/models:ro
+      - uploads_data:/app/uploads
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_WS_URL: ws://localhost:8000/ws
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  uploads_data:

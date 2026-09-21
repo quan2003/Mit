@@ -1,0 +1,4 @@
+.ultralytics/
+__pycache__/
+*.pyc
+*.log
