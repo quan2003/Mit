@@ -12,7 +12,7 @@ export default function AutoCaptureToast() {
     // Hiện khi bật auto hoặc vừa có kết quả mới, chưa bị dismiss
     if ((!autoCapture && !lastResult) || dismissed) return null;
 
-    const cls = lastResult?.predicted_class;
+    const cls = lastResult?.predicted_class ?? "";
     const color = CLASS_COLORS[cls] || "#94a3b8";
     const label = CLASS_LABELS[cls] || cls;
     const isHealthy = cls === "Binh_thuong";
